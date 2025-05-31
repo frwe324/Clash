@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تخصيص | Clash</title>
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <style>
+    /* Base styles from dashboard.html */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #000;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: rgba(26, 26, 26, 0.5);
+      backdrop-filter: blur(10px);
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Reuse all sidebar styles from dashboard.html */
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .welcome-text {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .username {
+      font-weight: 500;
+    }
+
+    .nav-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem 1rem;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      opacity: 0.7;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: rgba(145, 71, 255, 0.2);
+      opacity: 1;
+    }
+
+    .nav-link svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .support-section {
+      margin-top: auto;
+      padding: 1rem;
+      background: rgba(88, 101, 242, 0.1);
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .support-title {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+
+    .discord-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: #5865F2;
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .discord-btn:hover {
+      background: #4752c4;
+      transform: translateY(-2px);
+    }
+
+    .page-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(145, 71, 255, 0.2);
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .page-btn:hover {
+      background: rgba(145, 71, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    /* Customize page specific styles */
+    .customize-section {
+      background: rgba(26, 26, 26, 0.5);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .color-picker {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .color-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .color-option:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .color-preview {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .theme-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .theme-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .theme-preview {
+      height: 120px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .theme-info {
+      padding: 1rem;
+    }
+
+    .theme-name {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .theme-description {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .font-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .font-option {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .font-option:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .font-preview {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .font-name {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    [data-lang="en"] [lang="ar"],
+    [data-lang="ar"] [lang="en"] {
+      display: none;
+    }
+  </style>
+</head>
+<body data-lang="ar">
+  <!-- Sidebar (same as dashboard.html) -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="https://cdn.discordapp.com/avatars/123456789/avatar.png" alt="User Avatar">
+      <div class="user-info">
+        <div class="welcome-text">
+          <span lang="ar">مرحباً بك،</span>
+          <span lang="en">Welcome back,</span>
+        </div>
+        <div class="username">$</div>
+      </div>
+    </div>
+
+    <nav>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="dashboard.html" class="nav-link">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
+            </svg>
+            <span lang="ar">الحساب</span>
+            <span lang="en">Account</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="customize.html" class="nav-link active">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+            <span lang="ar">تخصيص</span>
+            <span lang="en">Customize</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="links.html" class="nav-link">
+            <svg viewBox="0 0 24 24">
+              <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+            </svg>
+            <span lang="ar">الروابط</span>
+            <span lang="en">Links</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="premium.html" class="nav-link">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
+            </svg>
+            <span lang="ar">بريميوم</span>
+            <span lang="en">Premium</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="image-host.html" class="nav-link">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+            </svg>
+            <span lang="ar">استضافة الصور</span>
+            <span lang="en">Image Host</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="support-section">
+      <div class="support-title">
+        <span lang="ar">هل لديك سؤال أو تحتاج للدعم؟</span>
+        <span lang="en">Have a question or need support?</span>
+      </div>
+      <a href="https://discord.gg/clash" class="discord-btn">
+        <svg viewBox="0 0 24 24" fill="#fff">
+          <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.118.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+        </svg>
+        <span lang="ar">انضم للديسكورد</span>
+        <span lang="en">Join Discord</span>
+      </a>
+    </div>
+
+    <a href="my-page" class="page-btn">
+      <svg viewBox="0 0 24 24" fill="#fff">
+        <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/>
+      </svg>
+      <span lang="ar">صفحتي</span>
+      <span lang="en">My Page</span>
+    </a>
+  </aside>
+
+  <main class="main-content">
+    <!-- Color Theme Section -->
+    <section class="customize-section">
+      <div class="section-title">
+        <span lang="ar">لون السمة</span>
+        <span lang="en">Theme Color</span>
+      </div>
+      <div class="section-subtitle">
+        <span lang="ar">اختر اللون الرئيسي لصفحتك</span>
+        <span lang="en">Choose the primary color for your page</span>
+      </div>
+      <div class="color-picker">
+        <div class="color-option">
+          <div class="color-preview" style="background: #9147ff"></div>
+          <span>Purple</span>
+        </div>
+        <div class="color-option">
+          <div class="color-preview" style="background: #ff4747"></div>
+          <span>Red</span>
+        </div>
+        <div class="color-option">
+          <div class="color-preview" style="background: #47ff91"></div>
+          <span>Green</span>
+        </div>
+        <div class="color-option">
+          <div class="color-preview" style="background: #4789ff"></div>
+          <span>Blue</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Theme Selection Section -->
+    <section class="customize-section">
+      <div class="section-title">
+        <span lang="ar">السمة</span>
+        <span lang="en">Theme</span>
+      </div>
+      <div class="section-subtitle">
+        <span lang="ar">اختر سمة لصفحتك</span>
+        <span lang="en">Choose a theme for your page</span>
+      </div>
+      <div class="theme-grid">
+        <div class="theme-card">
+          <div class="theme-preview" style="background-image: url('themes/minimal.jpg')"></div>
+          <div class="theme-info">
+            <div class="theme-name">
+              <span lang="ar">بسيط</span>
+              <span lang="en">Minimal</span>
+            </div>
+            <div class="theme-description">
+              <span lang="ar">تصميم نظيف وبسيط</span>
+              <span lang="en">Clean and simple design</span>
+            </div>
+          </div>
+        </div>
+        <div class="theme-card">
+          <div class="theme-preview" style="background-image: url('themes/glass.jpg')"></div>
+          <div class="theme-info">
+            <div class="theme-name">
+              <span lang="ar">زجاجي</span>
+              <span lang="en">Glass</span>
+            </div>
+            <div class="theme-description">
+              <span lang="ar">تأثير زجاجي عصري</span>
+              <span lang="en">Modern glass effect</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Font Selection Section -->
+    <section class="customize-section">
+      <div class="section-title">
+        <span lang="ar">الخط</span>
+        <span lang="en">Font</span>
+      </div>
+      <div class="section-subtitle">
+        <span lang="ar">اختر خط لصفحتك</span>
+        <span lang="en">Choose a font for your page</span>
+      </div>
+      <div class="font-section">
+        <div class="font-option">
+          <div class="font-preview" style="font-family: system-ui">Aa</div>
+          <div class="font-name">System UI</div>
+        </div>
+        <div class="font-option">
+          <div class="font-preview" style="font-family: 'Segoe UI'">Aa</div>
+          <div class="font-name">Segoe UI</div>
+        </div>
+        <div class="font-option">
+          <div class="font-preview" style="font-family: 'SF Pro'">Aa</div>
+          <div class="font-name">SF Pro</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function switchLanguage(lang) {
+      document.body.dataset.lang = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      
+      localStorage.setItem('preferred_language', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const preferred_language = localStorage.getItem('preferred_language') || 'ar';
+      switchLanguage(preferred_language);
+
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      if (userData) {
+        document.querySelector('.username').textContent = userData.username;
+      } else {
+        window.location.href = '/index.html';
+      }
+    });
+  </script>
+</body>
+</html> 

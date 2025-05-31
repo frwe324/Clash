@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>لوحة التحكم | Clash</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #000;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: rgba(26, 26, 26, 0.5);
+      backdrop-filter: blur(10px);
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .welcome-text {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .username {
+      font-weight: 500;
+    }
+
+    .nav-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem 1rem;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      opacity: 0.7;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: rgba(145, 71, 255, 0.2);
+      opacity: 1;
+    }
+
+    .nav-link svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .support-section {
+      margin-top: auto;
+      padding: 1rem;
+      background: rgba(88, 101, 242, 0.1);
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .support-title {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+
+    .discord-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: #5865F2;
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .discord-btn:hover {
+      background: #4752c4;
+      transform: translateY(-2px);
+    }
+
+    .page-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(145, 71, 255, 0.2);
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .page-btn:hover {
+      background: rgba(145, 71, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      margin-left: 240px;
+    }
+
+    .welcome-section {
+      margin-bottom: 2rem;
+    }
+
+    .welcome-title {
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-title {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-change {
+      font-size: 0.9rem;
+      color: #4ade80;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .stat-change.negative {
+      color: #f87171;
+    }
+
+    .chart-section {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .chart-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
+    .chart-filters {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .chart-filter {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .chart-filter:hover,
+    .chart-filter.active {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .chart-container {
+      width: 100%;
+      height: 300px;
+      position: relative;
+    }
+
+    [data-lang="en"] [lang="ar"],
+    [data-lang="ar"] [lang="en"] {
+      display: none;
+    }
+  </style>
+</head>
+<body data-lang="ar">
+  <div class="dashboard">
+    <aside class="sidebar">
+      <a href="/" class="logo">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
+        </svg>
+        <span>Clash</span>
+      </a>
+
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="/dashboard.html" class="nav-link active">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+            </svg>
+            <span lang="ar">لوحة التحكم</span>
+            <span lang="en">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/customize.html" class="nav-link">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+            </svg>
+            <span lang="ar">تخصيص</span>
+            <span lang="en">Customize</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/links.html" class="nav-link">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+            </svg>
+            <span lang="ar">الروابط</span>
+            <span lang="en">Links</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/premium.html" class="nav-link">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+            <span lang="ar">بريميوم</span>
+            <span lang="en">Premium</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/image-host.html" class="nav-link">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+            </svg>
+            <span lang="ar">استضافة الصور</span>
+            <span lang="en">Image Host</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="other-links">
+        <div class="other-links-title">
+          <span lang="ar">روابط سريعة</span>
+          <span lang="en">Quick Links</span>
+        </div>
+        <a href="/" class="other-link home">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+          </svg>
+          <span lang="ar">الصفحة الرئيسية</span>
+          <span lang="en">Home Page</span>
+        </a>
+        <a href="https://discord.gg/clash" class="other-link discord" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.118.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+          </svg>
+          Discord
+        </a>
+        <a href="/settings.html" class="other-link settings">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+          </svg>
+          <span lang="ar">الإعدادات</span>
+          <span lang="en">Settings</span>
+        </a>
+        <a href="#" class="other-link logout" onclick="handleLogout()">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+          </svg>
+          <span lang="ar">تسجيل الخروج</span>
+          <span lang="en">Logout</span>
+        </a>
+      </div>
+
+      <div class="user-info">
+        <img src="https://ui-avatars.com/api/?name=John+Doe&background=random" alt="User Avatar" class="user-avatar">
+        <div class="user-details">
+          <div class="user-name" id="userName">John Doe</div>
+          <div class="user-id" id="userId">#123456</div>
+        </div>
+        <div class="user-menu">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+          </svg>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="welcome-section">
+        <h1 class="welcome-title">
+          <span lang="ar">مرحباً، <span id="welcomeName">John</span></span>
+          <span lang="en">Welcome, <span id="welcomeName">John</span></span>
+        </h1>
+        <p class="welcome-subtitle">
+          <span lang="ar">هذه نظرة عامة على حسابك</span>
+          <span lang="en">Here's an overview of your account</span>
+        </p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-title">
+            <span lang="ar">زيارات الملف الشخصي</span>
+            <span lang="en">Profile Views</span>
+          </div>
+          <div class="stat-value">1,234</div>
+          <div class="stat-change">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+              <path d="M7 14l5-5 5 5z"/>
+            </svg>
+            <span>12.5%</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-title">
+            <span lang="ar">إجمالي النقرات</span>
+            <span lang="en">Total Clicks</span>
+          </div>
+          <div class="stat-value">5,678</div>
+          <div class="stat-change">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+              <path d="M7 14l5-5 5 5z"/>
+            </svg>
+            <span>8.3%</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-title">
+            <span lang="ar">الروابط النشطة</span>
+            <span lang="en">Active Links</span>
+          </div>
+          <div class="stat-value">12</div>
+          <div class="stat-change negative">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+              <path d="M7 10l5 5 5-5z"/>
+            </svg>
+            <span>2.1%</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-title">
+            <span lang="ar">المساحة المستخدمة</span>
+            <span lang="en">Storage Used</span>
+          </div>
+          <div class="stat-value">45%</div>
+          <div class="stat-change">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+              <path d="M7 14l5-5 5 5z"/>
+            </svg>
+            <span>5.7%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-section">
+        <div class="chart-header">
+          <h2 class="chart-title">
+            <span lang="ar">تحليلات النقرات</span>
+            <span lang="en">Click Analytics</span>
+          </h2>
+          <div class="chart-filters">
+            <button class="chart-filter active">
+              <span lang="ar">7 أيام</span>
+              <span lang="en">7 Days</span>
+            </button>
+            <button class="chart-filter">
+              <span lang="ar">30 يوم</span>
+              <span lang="en">30 Days</span>
+            </button>
+            <button class="chart-filter">
+              <span lang="ar">سنة</span>
+              <span lang="en">Year</span>
+            </button>
+          </div>
+        </div>
+        <div class="chart-container" id="clicksChart">
+          <!-- Chart will be rendered here -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Language Switcher
+    function switchLanguage(lang) {
+      document.body.dataset.lang = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      localStorage.setItem('preferred_language', lang);
+    }
+
+    // Load user data
+    function loadUserData() {
+      const userData = JSON.parse(localStorage.getItem('userData') || sessionStorage.getItem('userData'));
+      if (!userData) {
+        window.location.href = '/index.html';
+          return;
+      }
+
+      document.getElementById('userName').textContent = userData.name;
+      document.getElementById('userId').textContent = `#${userData.id}`;
+      document.getElementById('welcomeName').textContent = userData.name.split(' ')[0];
+    }
+
+    // Handle logout
+    function handleLogout() {
+      localStorage.removeItem('userData');
+      localStorage.removeItem('token');
+      sessionStorage.removeItem('userData');
+      sessionStorage.removeItem('token');
+      window.location.href = '/index.html';
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      const preferred_language = localStorage.getItem('preferred_language') || 'ar';
+      switchLanguage(preferred_language);
+      loadUserData();
+    });
+  </script>
+</body>
+</html>
